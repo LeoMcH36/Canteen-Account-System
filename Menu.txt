@@ -1,0 +1,41 @@
+using System;
+
+namespace Account_System
+{
+    class Menu
+    {
+
+        private string title;
+        private string[] optionList;
+
+	//Menu object constructor
+        public Menu(string menuTitle, string[] options)
+        {
+            title = menuTitle;
+            optionList = options;
+        }
+	
+        //to display the menu
+        private void DisplayMenu()
+        {
+            int optionCount;
+            Console.WriteLine("\n" + title + "\n\n");
+            for (optionCount = 0; optionCount < optionList.Length;
+                    optionCount++)
+            {
+                Console.WriteLine(optionList[optionCount]);
+            }//for
+            Console.WriteLine("\nYour choice? (number) :");
+        }//DisplayMenu
+
+	//to get the option they choose
+        public int GetChoice()
+        {
+
+            int choice;
+            DisplayMenu();
+            choice = Convert.ToInt32(Console.ReadLine());
+            return choice;
+        }//GetChoice
+    }
+}

@@ -1,0 +1,163 @@
+using System;
+using System.Text;
+
+namespace Account_System
+{
+    class CanteenAcc
+    {
+        private String customerID, name, status;
+        private double balance;
+        private static double minTopup;
+        private static double creditLimit;
+        private int transCount;
+
+	//canteen account constructor
+        public CanteenAcc(string newId, string newName, double newBalance)
+        {
+            customerID = newId;
+            name = newName;
+            balance = newBalance;
+            status = "valid";
+            creditLimit = -5.00;
+            minTopup = 2.00;
+            transCount = 0;
+        }//canteenAcc
+
+	//new canteen account constructor
+        public CanteenAcc(string newId, string newName)
+        {
+            customerID = newId;
+            name = newName;
+            status = "valid";
+            balance = 0;
+            transCount = 0;
+            creditLimit = -5.00;
+            minTopup = 2.00;
+        }//canteenAcc bankaccount
+
+	//to top up balance
+        public void TopUp(double depositAmount)
+        {
+            if (depositAmount > minTopup)
+            {
+                this.balance += depositAmount;
+                if (balance >= 0.0)
+                {
+                    status = "Valid";
+                } //if
+                else
+                {
+                    status = "credit";
+                }//else
+            }//if
+            else
+            {
+                throw new Exception("\nBelow Minimum Topup");
+            }//else
+
+        }//topUp
+
+	//to pay for a meal
+        public void PayForMeal(double amount)
+        {
+
+            if ((balance - amount) < 0 && (balance - amount) > creditLimit)
+            {
+
+                balance -= amount;
+                status = "credit";
+                transCount++;
+                throw new Exception("\nPurchase successful however you must top up your balance");
+            }//if
+            else if ((balance - amount) < 0 && (balance - amount) < creditLimit)
+            {
+
+                throw new Exception("\nCost Exceeds Credit Limit");
+
+            }
+            else
+            {
+                balance -= amount;
+                transCount++;
+            }//else
+
+        }
+	
+	//to display the details of the account
+        public String DisplayAccountDetails()
+        {
+            StringBuilder sb1 = new StringBuilder();
+
+            sb1.Append("ID: " + customerID);
+            sb1.Append("\n");
+            sb1.Append("name: " + name);
+            sb1.Append("\n");
+            sb1.Append("Account Status: " + status);
+            sb1.Append("\n");
+            sb1.Append("Account Balance: £" + balance);
+            sb1.Append("\n");
+            sb1.Append("Minimum TopUp: £" + minTopup);
+            sb1.Append("\n");
+            //so credit limit is printed as a positive number
+            if (creditLimit < 0)
+            {
+                sb1.Append("Credit Limit: £" + (creditLimit * -1));
+            }
+            else
+            {
+                sb1.Append("Credit Limit: £" + creditLimit);
+            }
+
+            sb1.Append("\n");
+            sb1.Append("Amount of transactions: " + transCount);
+            return sb1.ToString();
+        }
+	
+        //to get balance
+        public double GetBalance()
+        {
+            return balance;
+        }
+	
+	//to get the credit limit
+        public double GetcreditLimit()
+        {
+            return creditLimit;
+        }
+	
+	//to get the minium top up allowed
+        public double GetMinTopup()
+        {
+            return minTopup;
+        }
+
+	//to get the account status
+        public string GetStatus()
+        {
+            return status;
+        }
+
+	//to update the account's credit limit
+        public void UpdateCreditLimit(double credlim)
+        {
+            //so credit is always negative
+            if (credlim > 0)
+            {
+                creditLimit = (credlim * -1);
+            }
+            else
+            {
+                creditLimit = credlim;
+            }
+        }//UpdateCreditLimit
+
+	//to update the minimum top up amount
+        public void UpdateMinTopup(double minTop)
+        {
+            minTopup = minTop;
+        }
+
+       
+    }//class
+}//namespace
+

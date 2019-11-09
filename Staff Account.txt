@@ -1,0 +1,62 @@
+using System.Text;
+
+namespace Account_System
+{
+
+
+    class StaffAccount : CanteenAcc
+        {
+
+            private double discountRate;
+	
+	    //staff account constructor
+            public StaffAccount(string newId, string newName, double discountRate)
+
+                : base(newId, newName)
+            {
+                this.discountRate = discountRate;
+            }
+
+	//to set the discount rate for the staff member
+        public void SetDiscountRate(double rate)
+            {
+                discountRate = rate;
+            }
+	//to get the discount rate
+            public double GetDiscountRate()
+            {
+                return discountRate;
+            }
+
+	//to pay for the meal using a staff account
+        public new void PayForMeal(double amount)
+            {
+
+		//no discount if in credit
+                if ("valid".Equals(base.GetStatus()))
+                {
+                    base.PayForMeal(amount * discountRate);
+                }
+                else
+                {
+                    base.PayForMeal(amount);
+                }
+
+
+            }
+
+		//to display the staff account details
+            public new string DisplayAccountDetails()
+            {
+                StringBuilder sb1 = new StringBuilder();
+                sb1.Append("Staff Account");
+                sb1.Append(base.DisplayAccountDetails() + "\n");
+                sb1.Append("Discount Rate: " + discountRate);
+                sb1.Append("\n");
+                return sb1.ToString();
+            }
+        }
+
+}
+
+

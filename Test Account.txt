@@ -1,0 +1,107 @@
+using System;
+using System.Collections.Generic;
+using System.Text;
+
+namespace Account_System
+{
+    class Test_Account
+    {
+        public static void Main(String[] args)
+        {
+
+            String[] menuOptions = {"1. Top up money", "2. Pay for meal", "3. Account Status", "4. Account Balance", "5. Display Full Account details",
+            "6. Update Credit Limit", "7. Update minimum top up", "8. Exit"};
+
+            Menu myMenu = new Menu("Canteen Account", menuOptions);
+
+            CanteenAcc cAcc1 = new CanteenAcc("120", "Jane Smith", 50.00);
+            StaffAccount sAcc1 = new StaffAccount("109", "Joe Wilson", 0.85);
+            int option = 0;
+            do
+            {
+                try
+                {
+
+
+                    option = myMenu.GetChoice();
+                    switch (option)
+                    {
+                        case 1:
+                            Console.WriteLine("Top up Account");
+                            double deposit;
+
+                            Console.WriteLine("Please enter how much you would like to deposit in £ ");
+                            deposit = Convert.ToDouble(Console.ReadLine());
+                            try
+                            {
+                                sAcc1.TopUp(deposit);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.ToString());
+                            }
+
+                            break;
+                        case 2:
+                            Console.WriteLine("Pay for meal");
+
+                            double amount;
+                            Console.WriteLine("Please enter the cost of the meal in £ ");
+                            amount = Convert.ToDouble(Console.ReadLine());
+                            try
+                            {
+                                sAcc1.PayForMeal(amount);
+                            }
+                            catch (Exception ex)
+                            {
+                                Console.WriteLine(ex.ToString());
+                            }
+                            break;
+                        case 3:
+                            Console.WriteLine(sAcc1.GetStatus());
+
+                            break;
+                        case 4:
+                            Console.WriteLine("£" + sAcc1.GetBalance());
+                            break;
+                        case 5:
+                            Console.WriteLine(sAcc1.DisplayAccountDetails());
+                            break;
+                        case 6:
+                            Console.WriteLine("Update credit limit");
+                            double creditLimit;
+                            Console.WriteLine("Please enter the updated credit limit in £ ");
+
+                            creditLimit = Convert.ToDouble(Console.ReadLine());
+
+                            sAcc1.UpdateCreditLimit(creditLimit);
+
+
+                            Console.WriteLine("Updated Credit Limit: £" + sAcc1.GetcreditLimit() * -1);
+
+                            break;
+                        case 7:
+                            Console.WriteLine("Update Minimum top up");
+                            double minTopup = 2.00;
+                            Console.WriteLine("Please enter the updated minimum top up £ ");
+                            minTopup = Convert.ToDouble(Console.ReadLine());
+                            sAcc1.UpdateMinTopup(minTopup);
+                            Console.WriteLine("Updated Minimum top up: £" + sAcc1.GetMinTopup());
+                            break;
+                        case 8:
+                            Console.WriteLine("Program ended");
+                            break;
+                        default:
+                            Console.WriteLine("Invalid option");
+                            break;
+                    }
+
+                }
+                catch (FormatException)
+                {
+                    Console.WriteLine("Invalid input ");
+                }
+            } while (option != 8);
+        }//main
+    }
+}
